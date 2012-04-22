@@ -16,9 +16,12 @@
                     .items("li.friend")
                     .use("friends");
 
+
+                var name = "Sam";
+
                 // define factories for name values
                 cup.names({
-                    "firstName" : function(){ return "Sam" },
+                    "firstName" : function(){ return name },
                     "lastName"  : "Williams",
                     "friends"   : [
                         "skyla",
@@ -28,6 +31,10 @@
 
                 // update UI
                 cup.render();
+
+
+                name = "Rebecca";
+                cup.touch("firstName");
             });            
         </script>
     </head>

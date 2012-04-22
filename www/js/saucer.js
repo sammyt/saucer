@@ -2,6 +2,24 @@ define(["jquery"], function($){
 
     "use strict";
     
+    var _update = function(where, names, root){
+        var dest  = root.find(where.where),
+            value = names[where.name];
+
+        // render a list
+        if(where.template) {
+            $(value).each(function(i, o){
+                dest.append(
+                    where.template.clone().text(o)
+                );
+            });
+
+        // jus a value 
+        } else {
+            dest.text(value);
+        }           
+    }
+
     var Saucer = function(){
         var self = this;
 
@@ -42,25 +60,17 @@ define(["jquery"], function($){
             }
 
             c.render = function (){
-                $(wheres).each(function(index, item){
-
-                    var dest  = root.find(item.where),
-                        value = names[item.name];
-
-                    // render a list
-                    if(item.template) {
-                        $(value).each(function(i, o){
-                            dest.append(
-                                item.template.clone().text(o)
-                            );
-                        });
-
-                    // jus a value 
-                    } else {
-                        dest.text(value);
-                    }
-                    
+                $(wheres).each(function(index, where){
+                    _update(where, names, root);
                 });
+            }
+
+            c.touch = function(name) {
+                var where = wheres.filter(function(item){
+                    return item.name == name;
+                })[0];
+
+                _update(where, names, root);
             }
 
             return c;
