@@ -5,22 +5,32 @@
         <script>
             require(["saucer"], function(Saucer) {
 
+                
                 var cup = Saucer.cup(".person");
 
                 // map selectors to names
                 cup.where(".first-name").use("firstName");
                 cup.where(".last-name").use("lastName");
 
+                cup.where("ul.friends")
+                    .list("li.friend")
+                    .use("friends")
+
                 // define factories for name values
                 cup.names({
                     firstName : function(){
                         return "Sam"   
                     },
-                    lastName : "Williams"
+                    lastName    : "Williams",
+                    friends     : [
+                        "skyla",
+                        "bean"
+                    ]
                 });
 
                 // update UI
                 cup.render();
+                
             });
             
         </script>
@@ -31,8 +41,8 @@
         <div class="person">
             <span class="first-name"></span>
             <span class="last-name"></span>
-            <ul>
-                <li><li>
+            <ul class="friends">
+                <li class="friend">template</li>
             </ul>
         </div>
     </body>

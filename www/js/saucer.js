@@ -13,14 +13,25 @@ define(["jquery"], function($){
 
 
             c.where = function(selector){
-                var w = this;
+                var w = this,
+                    template;
                 
                 w.use = function(name){
                     wheres.push({
-                        where : selector,
-                        name : name
+                        where   : selector,
+                        name    : name,
+                        template: template
                     });
                     return c;
+                }
+
+                w.list = function(itemSelector) {
+                    template = root
+                        .find(selector)
+                        .find(itemSelector)
+                        .remove();
+                        
+                    return w;
                 }
                 return w;
             }
@@ -32,9 +43,23 @@ define(["jquery"], function($){
 
             c.render = function (){
                 $(wheres).each(function(index, item){
-                    root.find(item.where).text(
-                        names[item.name]
-                    );
+
+                    var dest  = root.find(item.where),
+                        value = names[item.name];
+
+                    // render a list
+                    if(item.template) {
+                        $(value).each(function(i, o){
+                            dest.append(
+                                item.template.clone().text(o)
+                            );
+                        });
+
+                    // jus a value 
+                    } else {
+                        dest.text(value);
+                    }
+                    
                 });
             }
 
