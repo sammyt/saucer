@@ -13,16 +13,14 @@
                 cup.where(".last-name").use("lastName");
 
                 cup.where("ul.friends")
-                    .list("li.friend")
-                    .use("friends")
+                    .items("li.friend")
+                    .use("friends");
 
                 // define factories for name values
                 cup.names({
-                    firstName : function(){
-                        return "Sam"   
-                    },
-                    lastName    : "Williams",
-                    friends     : [
+                    "firstName" : function(){ return "Sam" },
+                    "lastName"  : "Williams",
+                    "friends"   : [
                         "skyla",
                         "bean"
                     ]
@@ -30,9 +28,7 @@
 
                 // update UI
                 cup.render();
-                
-            });
-            
+            });            
         </script>
     </head>
     <body>

@@ -25,12 +25,12 @@ define(["jquery"], function($){
                     return c;
                 }
 
-                w.list = function(itemSelector) {
+                w.items = function(itemSelector) {
                     template = root
                         .find(selector)
                         .find(itemSelector)
                         .remove();
-                        
+
                     return w;
                 }
                 return w;
