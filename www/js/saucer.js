@@ -66,11 +66,11 @@ define(["jquery"], function($){
             }
 
             c.touch = function(name) {
-                var where = wheres.filter(function(item){
+                wheres.filter(function(item){
                     return item.name == name;
-                })[0];
-
-                _update(where, names, root);
+                }).forEach(function(where){
+                    _update(where, names, root);    
+                });
             }
 
             return c;
