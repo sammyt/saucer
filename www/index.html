@@ -38,11 +38,11 @@
                 cup.touch("firstName");
 
                 friends.push("russ");
-
-                setTimeout(function(){
-                    cup.touch("friends");
-                }, 2000);
+                cup.touch("friends", [-1, 2]);
                 
+                
+                friends.unshift("jess");
+                cup.touch("friends", [-1, 0]);
             });            
         </script>
     </head>

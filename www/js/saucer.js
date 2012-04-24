@@ -2,18 +2,39 @@ define(["jquery"], function($){
 
     "use strict";
     
-    var _update = function(where, names, root){
+    var _update = function(where, names, root, listChange){
         var dest  = root.find(where.where),
             value = names[where.name];
 
         // render a list
         if(where.template) {
-            dest.empty();
-            $(value).each(function(i, o){
-                dest.append(
-                    where.template.clone().text(o)
-                );
-            });
+
+            if(listChange) {
+                var from = listChange[0],
+                    to = listChange[1]
+
+                if(from < 0) {
+                    if(to == 0) {
+                        dest.find("li").eq(0).before(
+                            where.template.clone().text(value[to])
+                        )
+                    } else {
+                        dest.find("li").eq(to - 1).after(
+                            where.template.clone().text(value[to])
+                        )
+                    }
+                    
+                }
+                console.log(dest.length);
+            } else{
+                dest.empty();
+                $(value).each(function(i, o){
+                    dest.append(
+                        where.template.clone().text(o)
+                    )
+                })
+            }
+            
 
         // jus a value 
         } else {
@@ -66,11 +87,11 @@ define(["jquery"], function($){
                 });
             }
 
-            c.touch = function(name) {
+            c.touch = function(name, listChange) {
                 wheres.filter(function(item){
                     return item.name == name;
                 }).forEach(function(where){
-                    _update(where, names, root);    
+                    _update(where, names, root, listChange);    
                 });
             }
 
