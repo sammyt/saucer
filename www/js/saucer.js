@@ -8,6 +8,7 @@ define(["jquery"], function($){
 
         // render a list
         if(where.template) {
+            dest.empty();
             $(value).each(function(i, o){
                 dest.append(
                     where.template.clone().text(o)

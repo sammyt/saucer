@@ -18,15 +18,16 @@
 
 
                 var name = "Sam";
+                var friends = [
+                    "skyla",
+                    "bean"
+                ];
 
                 // define factories for name values
                 cup.names({
                     "firstName" : function(){ return name },
                     "lastName"  : "Williams",
-                    "friends"   : [
-                        "skyla",
-                        "bean"
-                    ]
+                    "friends"   : friends
                 });
 
                 // update UI
@@ -35,6 +36,13 @@
 
                 name = "Rebecca";
                 cup.touch("firstName");
+
+                friends.push("russ");
+
+                setTimeout(function(){
+                    cup.touch("friends");
+                }, 2000);
+                
             });            
         </script>
     </head>
