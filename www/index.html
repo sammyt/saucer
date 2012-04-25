@@ -43,6 +43,15 @@
                 
                 friends.unshift("jess");
                 cup.touch("friends", [-1, 0]);
+
+
+                friends.pop();
+                friends.unshift("russ");
+                cup.touch("friends", [3, 0]);
+                
+                friends.pop();
+                cup.touch("friends", [3, -1]);    
+                    
             });            
         </script>
     </head>

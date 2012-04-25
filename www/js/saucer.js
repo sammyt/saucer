@@ -27,17 +27,18 @@ define(["jquery"], function($){
                         var from = listChange[0],
                             to = listChange[1]
 
-                        if(from < 0) {
-                            if(to == 0) {
-                                dest.find(itemSelector).eq(0).before(
-                                    where.template.clone().text(value[to])
-                                )
-                            } else {
-                                dest.find(itemSelector).eq(to - 1).after(
-                                    where.template.clone().text(value[to])
-                                )
-                            }
-                            
+                        if(from >= 0) {
+                            dest.find(itemSelector).eq(from).remove();
+                        } 
+
+                        if(to == 0) {
+                            dest.find(itemSelector).eq(0).before(
+                                where.template.clone().text(value[to])
+                            )
+                        } else if(to > 0) {
+                            dest.find(itemSelector).eq(to - 1).after(
+                                where.template.clone().text(value[to])
+                            )
                         }
                     } else{
                         dest.empty();
@@ -47,9 +48,8 @@ define(["jquery"], function($){
                             )
                         })
                     }
-                    
 
-                // jus a value 
+                // just a value 
                 } else {
                     dest.text(value);
                 }           
