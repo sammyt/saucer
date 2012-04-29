@@ -1,108 +1,112 @@
 define(["jquery"], function($){
 
     "use strict";
-    
-    
-    var Saucer = function(){
-        var self = this;
+
+    var Cup = function(selector) {
+        var self = this
+            , data
+            , children = []
+            , template
+            , templateSelector
+            , root = $(selector)
+            , clauses = []
+            , currentClause = {}
+        
+
+        var updateClause = function(name, value) {
+            var c = currentClause
+            c[name] = value
+            if(c.selector && c.data) {
+                clauses.push(c)
+                currentClause = {}
+            }
+        }
 
 
+        self.data = function(dataOrName) {
+            data = dataOrName
+            return self
+        }
 
-        self.cup = function(node){
-            var c = this,
-                wheres = [],
-                names,
-                root = $(node);
+        self.where = function(wSelector){
+            updateClause("selector", wSelector)
+            return self
+        }
 
+        self.use = function(dataName){
+            updateClause("data", dataName)
+            return self
+        }
 
-            var _update = function(where, listChange){
-                var dest         = root.find(where.where),
-                    value        = names[where.name],
-                    itemSelector = where.itemSelector;
+        self.cup = function(cSelector){
+            var child = new Cup(cSelector)
+            children.push(child)
+            return child
+        }
 
-                // render a list
-                if(where.template) {
+        self.template = function(tSelector){
+            template = root.find(tSelector).remove()
+            templateSelector = tSelector
+            return self
+        }
 
-                    if(listChange) {
-                        var from = listChange[0],
-                            to = listChange[1]
+        self.dataByName = function(name) {
+            return data[name]
+        }
 
-                        if(from >= 0) {
-                            dest.find(itemSelector).eq(from).remove();
-                        } 
+        self.touch = function(name, parent){
 
-                        if(to == 0) {
-                            dest.find(itemSelector).eq(0).before(
-                                where.template.clone().text(value[to])
-                            )
-                        } else if(to > 0) {
-                            dest.find(itemSelector).eq(to - 1).after(
-                                where.template.clone().text(value[to])
-                            )
-                        }
-                    } else{
-                        dest.empty();
-                        $(value).each(function(i, o){
-                            dest.append(
-                                where.template.clone().text(o)
-                            )
-                        })
-                    }
+            var toUpdate = clauses.filter(function(clause){
+                return name ? clause.data == name : true
+            })
 
-                // just a value 
-                } else {
-                    dest.text(value);
-                }           
+            toUpdate.forEach(function(item){
+                update.apply(self, [item, parent])
+            })
+
+            children.forEach(function(child){
+                child.touch(name, self)
+            })
+        }
+
+        var update = function(clause, parent) {
+            var val
+
+            if(typeof data == "string") {
+                val = parent.dataByName(data)
+            } else {
+                val = self.dataByName(clause.data)
             }
 
-            c.where = function(selector){
-                var w = this,
-                    template,
-                    itemSelector;
+            if(!template) {
+                root.find(clause.selector).text(val)
+            } else {
+                val.forEach(function(item, index){
                 
-                w.use = function(name){
-                    wheres.push({
-                        where       : selector,
-                        name        : name,
-                        template    : template,
-                        itemSelector: itemSelector
-                    });
-                    return c;
-                }
+                    var node = root
+                        .find(templateSelector)
+                        .eq(index)
 
-                w.items = function(item) {
-                    itemSelector = item;
-                    template = root
-                        .find(itemSelector)
-                        .remove();
+                    if(!node.length) {
+                        node = template.clone()
+                        root.append(node)
+                    }
+                    var t = item[clause.data]
+                    node.find(clause.selector).text(t)
+                })
 
-                    return w;
-                }
-                return w;
+                root.find(templateSelector)
+                    .slice(val.length)
+                    .remove()
             }
-
-            c.names = function(namesMap){
-                names = namesMap
-                return c;
-            }
-
-            c.render = function (){
-                $(wheres).each(function(index, where){
-                    _update(where);
-                });
-            }
-
-            c.touch = function(name, listChange) {
-                wheres.filter(function(item){
-                    return item.name == name;
-                }).forEach(function(where){
-                    _update(where, listChange);    
-                });
-            }
-
-            return c;
+            
         }
     }
 
-    return new Saucer;
-});
+
+    return {
+        cup : function(selector) {
+            return new Cup(selector)
+        }
+    }
+})

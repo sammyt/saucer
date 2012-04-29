@@ -1,8 +1,3 @@
-requirejs(['jquery'], function ($) {
-
-
-	return {
-
-	};
+requirejs([], function () {
 });
 
