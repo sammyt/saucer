@@ -12,6 +12,11 @@
                     , {name : "bean", type : "wife"}
                 ];
                 
+                saucer.cup("body")
+                    .data({"title" : "Saucer - a small plate?"})
+                    .where("h1").use("title")
+                    .touch()
+
                 var cup = saucer.cup(".person")
                 
                 cup.data({
