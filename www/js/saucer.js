@@ -1,6 +1,6 @@
 define(["jquery"], function($){
 
-    "use strict";
+    "use strict"
 
     var Cup = function(selector) {
         var self = this
@@ -30,8 +30,26 @@ define(["jquery"], function($){
 
         self.where = function(wSelector){
             updateClause("selector", wSelector)
-            return self
+
+
+            var w = {
+                style : function(styleName) {
+                    updateClause("mutator", {"style" : styleName})
+                    return w
+                },
+
+                attr  : function(attrName) {
+                    updateClause("mutator", {"attr" : attrName})
+                    return w
+                },
+                use   : self.use.bind(self)
+            }
+
+
+            return w
         }
+
+        self
 
         self.use = function(dataName){
             updateClause("data", dataName)
@@ -79,7 +97,10 @@ define(["jquery"], function($){
             }
 
             if(!template) {
-                root.find(clause.selector).text(val)
+                applyMutator( root.find(clause.selector)
+                            , val
+                            , clause.mutator
+                            )
             } else {
                 val.forEach(function(item, index){
                 
@@ -92,12 +113,27 @@ define(["jquery"], function($){
                         root.append(node)
                     }
                     var t = item[clause.data]
-                    node.find(clause.selector).text(t)
+                    applyMutator( node.find(clause.selector)
+                                , t
+                                , clause.mutator
+                                )
                 })
 
                 root.find(templateSelector)
                     .slice(val.length)
                     .remove()
+            }
+        }
+
+        var applyMutator = function(nodes, val, mutator) {
+            if(mutator) {
+                if(mutator["style"]) {
+                    nodes.css(mutator["style"], val)
+                } else if(mutator["attr"]) {
+                    nodes.attr(mutator["attr"], val)
+                }
+            } else {
+                nodes.text(val)
             }
             
         }

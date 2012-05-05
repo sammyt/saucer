@@ -6,7 +6,7 @@
             require(["saucer"], function(saucer) {
 
 
-                var name = "Sam";
+                var name = "Rebecca";
                 var friends = [
                       {name : "skyla", type : "dog"}
                     , {name : "bean", type : "wife"}
@@ -22,9 +22,15 @@
                 cup.data({
                         "firstName" : function(){ return name },
                         "lastName"  : "Williams",
+                        "indent"    : 40, 
+                        "colour"    : "#ff0000",
+                        "homePage"  : "http://www.ziazoo.co.uk",
                         "friends"   : friends
                     })
                     .where(".first-name").use("firstName")
+                    .where(".first-name").style("margin-left").use("indent")
+                    .where(".first-name").style("color").use("colour")
+                    .where("a").attr("href").use("homePage")
                     .where(".last-name").use("lastName")
                     .cup("ul.friends")
                         .data("friends")
@@ -32,7 +38,7 @@
                         .where(".friend-name").use("name")
                         .where(".friend-type").use("type")
 
-                var name = "Rebecca";
+                var name = "Sam";
                 cup.touch()
 
                 friends.push({
@@ -49,12 +55,11 @@
         <div class="person">
             <span class="first-name"></span>
             <span class="last-name"></span>
+            <a>blog</a>
             <ul class="friends">
                 <li class="friend">
-                    <strong>
-                        <span class="friend-name"></span>
-                        <span class="friend-type"></span>
-                    </strong>
+                    <strong><span class="friend-name"></span></strong>
+                    <span class="friend-type"></span>
                 </li>
             </ul>
         </div>
