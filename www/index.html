@@ -7,10 +7,9 @@
 
 
                 var name = "Rebecca";
-                var friends = [
-                      {name : "skyla", type : "dog"}
-                    , {name : "bean", type : "wife"}
-                ];
+                var friends = [ {name : "skyla", type : "dog"}
+                              , {name : "bean", type : "wife"}
+                              ]
                 
                 saucer.cup("body")
                     .data({"title" : "Saucer - a small plate?"})
@@ -19,32 +18,27 @@
 
                 var cup = saucer.cup(".person")
                 
-                cup.data({
-                        "firstName" : function(){ return name },
-                        "lastName"  : "Williams",
-                        "indent"    : 40, 
-                        "colour"    : "#ff0000",
-                        "homePage"  : "http://www.ziazoo.co.uk",
-                        "friends"   : friends
-                    })
-                    .where(".first-name").use("firstName")
-                    .where(".first-name").style("margin-left").use("indent")
-                    .where(".first-name").style("color").use("colour")
-                    .where("a").attr("href").use("homePage")
-                    .where(".last-name").use("lastName")
-                    .cup("ul.friends")
+                cup.where(".first-name").use("firstName")
+                   .where(".first-name").style("margin-left").use("indent")
+                   .where(".first-name").style("color").use("colour")
+                   .where("a").attr("href").use("blog")
+                   .where(".last-name").use("lastName")
+                   .cup("ul.friends")
                         .data("friends")
                         .template("li.friend")
                         .where(".friend-name").use("name")
                         .where(".friend-type").use("type")
 
-                var name = "Sam";
-                cup.touch()
+                cup.data({ "firstName" : function(){ return name }
+                         , "lastName"  : "Williams"
+                         , "indent"    : 40
+                         , "colour"    : "#ff0000"
+                         , "blog"  : "http://www.ziazoo.co.uk"
+                         ,"friends"   : friends
+                         })
 
-                friends.push({
-                      name : "sam"
-                    , type : "me" 
-                })
+                var name = "Sam";
+                friends.push({ name : "sam" , type : "me" })
                 cup.touch()
             });            
         </script>
