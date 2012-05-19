@@ -113,7 +113,7 @@ define(["jquery"], function($){
                         root.append(node)
                     }
                     var t = item[clause.data]
-                    applyMutator( node.find(clause.selector)
+                    applyMutator( clause.selector == ":self"? node : node.find(clause.selector)
                                 , t
                                 , clause.mutator
                                 )

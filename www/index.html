@@ -20,7 +20,7 @@
                 
                 cup.where(".first-name").use("firstName")
                    .where(".first-name").style("margin-left").use("indent")
-                   .where(".first-name").style("color").use("colour")
+                   .where(".first-name").style("margin-left").use("indent")
                    .where("a").attr("href").use("blog")
                    .where(".last-name").use("lastName")
                    .cup("ul.friends")
@@ -33,8 +33,8 @@
                          , "lastName"  : "Williams"
                          , "indent"    : 40
                          , "colour"    : "#ff0000"
-                         , "blog"  : "http://www.ziazoo.co.uk"
-                         ,"friends"   : friends
+                         , "blog"      : "http://www.ziazoo.co.uk"
+                         ,"friends"    : friends
                          })
 
                 var name = "Sam";
