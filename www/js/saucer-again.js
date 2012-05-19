@@ -5,54 +5,66 @@ define(["jquery"], function($){
      , type     = $.type
 
     var Cup = function(data, container) {
-        var mappings = []
+        var maps     = []
+          , children = []
           , self     = this
+        
+        var add = function(item, list) {
+            list.push(item) 
+            return item
+        }
 
+        self.map = function(property) {
+            return add(new Map(property), maps)
+        }
 
-        self.map = function(selector) {
-            return new Map(selector, mappings.push.bind(mappings))
+        self.map.each = function(property) {
+            var cup = add(new Cup(property), children)
+            return {
+                to : function(tmpl, configure) {
+                    bindList(tmpl, property)
+                    configure(cup.map)
+                }
+            }
         }
 
         self.touch = function() {
-            mappings.forEach(function(mapping){
-                mapping.apply(self, [data, $])
+            maps.forEach(function(map){
+                map.update(data)
+            })
+            children.forEach(function(child) {
+                child.touch()
             })
         }
     }
 
-    var Map = function(selector, add) {
+    var Map = function(property) {
+        var bindings = []
 
-        this.to = function(spec) {
-
-            if(contains(type(spec), ["string", "function"])) {
-                add(textMapping(selector, spec))
-            } else {
-                keys(spec).forEach(function(key) {
-                    add(selector, mappings[key])
-                })
-            }
+        this.to = function(selector) {
+            bindings.push(bindText(selector))
         }
 
-        this.each = function(prop) {
-            return {
-                to : function(selector, configure) {
-                    configure(function(selector) {
-                        return new Map(selector, add)
-                    })
-                }
-            }
-        }
-    }
-
-    var textMapping = function(selector, spec) {
-        return function(data, find){
-            find(selector).text(data[spec])
+        this.update = function(data) {
+            bindings.forEach(function(binding) {
+                binding(data[property], $)
+            })
         }
     }
 
 
-    var mappings = {
-        "text" : textMapping
+    var bindText = function(selector) {
+        return function(value, find) {
+            find(selector).text(value)
+        }
+    }
+
+    var bindList = function(selector, property) {
+        var container = $(selector)
+        var template = container
+
+        return function(list, find) {
+        }
     }
 
     return Cup

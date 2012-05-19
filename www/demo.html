@@ -20,17 +20,14 @@
 
                 var map = cup.map
 
-                map(".first-name").to("firstName")
-                map(".last-name").to("lastName")
+                map("firstName").to(".first-name")
+                map("lastName").to(".last-name")
 
-                map("ul.friends")
-                    .each("friends")
-                    .to("li.friend", function(map) {
+                map.each("friends")
+                    .to("ul.friends", function(map) {
                         map(".friend-name").to("name")
                         map(".friend-type").to("type")
-                    })t
-
-                
+                    })
 
                 cup.touch()
 
@@ -46,8 +43,8 @@
             <a>blog</a>
             <ul class="friends">
                 <li class="friend">
-                    <strong><span class="friend-name"></span></strong>
-                    <span class="friend-type"></span>
+                    <strong><span class="friend-name">a</span></strong>
+                    <span class="friend-type">b</span>
                 </li>
             </ul>
         </div>
