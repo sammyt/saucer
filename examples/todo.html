@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script data-main="js/app-todo" src="js/require.js"></script>
+
+        <script type="text/javascript">
+            require.config({
+                baseUrl: "js",
+                paths: {
+                    "saucer": "../../saucer"
+                },
+            })
+        </script>
+    </head>
+    <body>
+        <h1>TODO:</h1>
+
+        <div class="person">
+            <form>
+                <input type="text" />
+                <input type="submit"/>
+            </form>
+
+            <ul class="todos">
+                <li class="todo">
+                    <span class="todo-desc"></span>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

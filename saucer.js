@@ -15,6 +15,7 @@ define(["jquery"], function($){
         if(templated) {
             container = $(templated)
             template = container.html()
+            container.empty()
             this.property = property
         }
 
