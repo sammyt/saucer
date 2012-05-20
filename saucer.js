@@ -36,7 +36,7 @@ define(["jquery"], function($){
                                , property
                                )
                         , children)
-                    configure(cup.map.bind(cup))
+                    configure(cup)
                 }
             }
         }

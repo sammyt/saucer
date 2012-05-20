@@ -18,6 +18,7 @@ requirejs(["saucer"], function (Cup) {
 
     var cup = new Cup(data)
       , map = cup.map
+      , listCup
 
     map("firstName").to(".first-name")
     map("lastName").to(".last-name")
@@ -27,9 +28,10 @@ requirejs(["saucer"], function (Cup) {
     map("webpage").to("a").attr("href")
 
     map.each("friends")
-        .to("ul.friends", function(map) {
-            map("name").to(".friend-name")
-            map("type").to(".friend-type")
+        .to("ul.friends", function(cup) {
+            cup.map("name").to(".friend-name")
+            cup.map("type").to(".friend-type")
+            listCup = cup
         })
 
     cup.touch()
@@ -40,5 +42,7 @@ requirejs(["saucer"], function (Cup) {
     })
 
     cup.touch("firstName")
+
+    //listCup.at(3).touch()
 });
 
