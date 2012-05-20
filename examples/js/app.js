@@ -17,14 +17,13 @@ requirejs(["saucer"], function (Cup) {
     }
 
     var cup = new Cup(data)
-
-    var map = cup.map
+      , map = cup.map
 
     map("firstName").to(".first-name")
     map("lastName").to(".last-name")
 
     map("colour").to(".first-name").css("color")
-    map("likesSocks").to(".last-name").class("thing")
+    map("likesSocks").to(".last-name").class("socks-rock")
     map("webpage").to("a").attr("href")
 
     map.each("friends")

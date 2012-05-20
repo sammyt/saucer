@@ -4,7 +4,7 @@ define(["jquery"], function($){
 
     var keys    = Object.keys
 
-    var Cup = function(data, templated) {
+    var Cup = function(data, templated, property) {
         var maps     = []
           , children = []
           , self     = this
@@ -15,6 +15,7 @@ define(["jquery"], function($){
         if(templated) {
             container = $(templated)
             template = container.html()
+            this.property = property
         }
 
         var add = function(item, list) {
@@ -29,7 +30,12 @@ define(["jquery"], function($){
         self.map.each = function(property) {
             return {
                 to : function(selector, configure) {
-                    var cup = add(new Cup(data[property], selector), children)
+                    var cup = add( 
+                          new Cup( data[property]
+                               , selector
+                               , property
+                               )
+                        , children)
                     configure(cup.map.bind(cup))
                 }
             }
@@ -38,7 +44,7 @@ define(["jquery"], function($){
         self.touch = function(property) {
 
             if(templated) {
-                updateList( container
+                updateList(container
                   , template
                   , data
                   , maps
