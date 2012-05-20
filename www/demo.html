@@ -25,8 +25,8 @@
 
                 map.each("friends")
                     .to("ul.friends", function(map) {
-                        map(".friend-name").to("name")
-                        map(".friend-type").to("type")
+                        map("name").to(".friend-name")
+                        map("type").to(".friend-type")
                     })
 
                 cup.touch()

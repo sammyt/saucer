@@ -4,11 +4,20 @@ define(["jquery"], function($){
      , contains = $.contains
      , type     = $.type
 
-    var Cup = function(data, container) {
+
+    var Cup = function(data, templated) {
         var maps     = []
           , children = []
           , self     = this
-        
+          , container
+          , template
+
+
+        if(templated) {
+            container = $(templated)
+            template = container.html()
+        }
+
         var add = function(item, list) {
             list.push(item) 
             return item
@@ -19,24 +28,35 @@ define(["jquery"], function($){
         }
 
         self.map.each = function(property) {
-            var cup = add(new Cup(property), children)
             return {
-                to : function(tmpl, configure) {
-                    bindList(tmpl, property)
-                    configure(cup.map)
+                to : function(selector, configure) {
+                    var cup = add(new Cup(data[property], selector), children)
+                    configure(cup.map.bind(cup))
                 }
             }
         }
 
         self.touch = function() {
-            maps.forEach(function(map){
-                map.update(data)
-            })
+
+            if(templated) {
+                updateList( container
+                          , template
+                          , data
+                          , maps
+                          )
+            } else {
+                maps.forEach(function(map){
+                    map.update(data, $)
+                })    
+            }
+            
             children.forEach(function(child) {
                 child.touch()
             })
         }
     }
+    
+     
 
     var Map = function(property) {
         var bindings = []
@@ -45,11 +65,13 @@ define(["jquery"], function($){
             bindings.push(bindText(selector))
         }
 
-        this.update = function(data) {
+        this.update = function(data, scope) {
             bindings.forEach(function(binding) {
-                binding(data[property], $)
+                binding(data[property], scope)
             })
         }
+
+        this.property = property
     }
 
 
@@ -59,12 +81,30 @@ define(["jquery"], function($){
         }
     }
 
-    var bindList = function(selector, property) {
-        var container = $(selector)
-        var template = container
+    var updateList = function(container, template, data, maps) {
 
-        return function(list, find) {
-        }
+        data.forEach(function(item, index) {
+            var node = container.children().eq(index)
+            
+            if(!node.length) {
+                node = container
+                    .append($(template))
+                    .children()
+                    .eq(index)
+            } 
+            maps.forEach(function(map) {
+                map.update(item, function(selector){
+                    return $(selector, node)
+                })
+            })
+        })
+    }
+
+    function extend(type, overrides) {
+        var fn = function(){}
+        fn.prototype = new type
+        $.extend(fn.prototype, overrides)
+        return fn
     }
 
     return Cup
