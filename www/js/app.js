@@ -1,9 +1,11 @@
 requirejs(["saucer"], function (Cup) {
 
-     var cup = new Cup({
-        firstName     : "Sam" ,
-        lastName : "Williams" ,
-        friends  : [
+    var data = {
+        firstName  : "Sam" ,
+        lastName   : "Williams" ,
+        colour     : "#00ff00" ,
+        likesSocks : true ,
+        friends    : [
             { name  : "becky"
             , type  : "wife"
             },
@@ -11,18 +13,30 @@ requirejs(["saucer"], function (Cup) {
             , type  : "pet"
             }
         ]
-    })
+    }
+
+    var cup = new Cup(data)
 
     var map = cup.map
 
     map("firstName").to(".first-name")
     map("lastName").to(".last-name")
 
+    map("colour").to(".first-name").css("color")
+    map("likesSocks").to(".last-name").class("thing")xw
+
     map.each("friends")
         .to("ul.friends", function(map) {
             map("name").to(".friend-name")
             map("type").to(".friend-type")
         })
+
+    cup.touch()
+
+    data.friends.unshift({
+        name : "russ" ,
+        type : "dude"
+    })
 
     cup.touch()
 });

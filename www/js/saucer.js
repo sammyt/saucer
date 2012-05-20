@@ -1,5 +1,7 @@
 define(["jquery"], function($){
 
+    "use strict;"
+
     var keys    = Object.keys
 
 
@@ -57,16 +59,23 @@ define(["jquery"], function($){
      
 
     var Map = function(property) {
-        var bindings = []
+        var binding = bindText
 
         this.to = function(selector) {
-            bindings.push(bindText(selector))
+            binding = bindText(selector)
+
+            this.css = function(styleName) {
+                binding = bindStyle(selector, styleName)
+            }
+
+            this.class = function(className) {
+                binding = bindClass(selector, className)
+            }
+            return this
         }
 
         this.update = function(data, scope) {
-            bindings.forEach(function(binding) {
-                binding(data[property], scope)
-            })
+            binding(data[property], scope)
         }
 
         this.property = property
@@ -76,6 +85,18 @@ define(["jquery"], function($){
     var bindText = function(selector) {
         return function(value, find) {
             find(selector).text(value)
+        }
+    }
+
+    var bindStyle = function(selector, styleName) {
+        return function(value, find) {
+            find(selector).css(styleName, value)
+        }
+    }
+
+    var bindClass  = function(selector, className) {
+        return function(value, find) {
+            find(selector).toggleClass(className, !!(value))
         }
     }
 
