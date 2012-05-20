@@ -1,8 +1,6 @@
 define(["jquery"], function($){
 
     var keys    = Object.keys
-     , contains = $.contains
-     , type     = $.type
 
 
     var Cup = function(data, templated) {
@@ -98,13 +96,6 @@ define(["jquery"], function($){
                 })
             })
         })
-    }
-
-    function extend(type, overrides) {
-        var fn = function(){}
-        fn.prototype = new type
-        $.extend(fn.prototype, overrides)
-        return fn
     }
 
     return Cup
