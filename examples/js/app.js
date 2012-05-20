@@ -5,11 +5,12 @@ requirejs(["saucer"], function (Cup) {
         lastName   : "Williams" ,
         colour     : "#00ff00" ,
         likesSocks : true ,
+        webpage    : "http://www.ziazoo.co.uk" ,
         friends    : [
             { name  : "becky"
             , type  : "wife"
             },
-            { name  : "skyle"
+            { name  : "skyla"
             , type  : "pet"
             }
         ]
@@ -24,6 +25,7 @@ requirejs(["saucer"], function (Cup) {
 
     map("colour").to(".first-name").css("color")
     map("likesSocks").to(".last-name").class("thing")
+    map("webpage").to("a").attr("href")
 
     map.each("friends")
         .to("ul.friends", function(map) {

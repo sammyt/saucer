@@ -70,6 +70,10 @@ define(["jquery"], function($){
             this.class = function(className) {
                 binding = bindClass(selector, className)
             }
+
+            this.attr = function(attrName) {
+                binding = bindAttr(selector, attrName)   
+            }
             return this
         }
 
@@ -97,6 +101,12 @@ define(["jquery"], function($){
         return function(value, find) {
             find(selector).toggleClass(className, !!(value))
         }
+    }
+
+    var bindAttr = function(selector, attrName) {
+        return function(value, find) {
+            find(selector).attr(attrName, value)
+        }   
     }
 
     var updateList = function(container, template, data, maps) {
