@@ -4,7 +4,6 @@ define(["jquery"], function($){
 
     var keys    = Object.keys
 
-
     var Cup = function(data, templated) {
         var maps     = []
           , children = []
@@ -36,14 +35,14 @@ define(["jquery"], function($){
             }
         }
 
-        self.touch = function() {
+        self.touch = function(property) {
 
             if(templated) {
                 updateList( container
-                          , template
-                          , data
-                          , maps
-                          )
+                  , template
+                  , data
+                  , maps
+                )
             } else {
                 maps.forEach(function(map){
                     map.update(data, $)

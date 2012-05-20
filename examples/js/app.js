@@ -23,7 +23,7 @@ requirejs(["saucer"], function (Cup) {
     map("lastName").to(".last-name")
 
     map("colour").to(".first-name").css("color")
-    map("likesSocks").to(".last-name").class("thing")xw
+    map("likesSocks").to(".last-name").class("thing")
 
     map.each("friends")
         .to("ul.friends", function(map) {
@@ -38,6 +38,6 @@ requirejs(["saucer"], function (Cup) {
         type : "dude"
     })
 
-    cup.touch()
+    cup.touch("firstName")
 });
 

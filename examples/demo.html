@@ -2,7 +2,15 @@
 <html>
     <head>
         <script data-main="js/app" src="js/require.js"></script>
-
+        <script type="text/javascript">
+            require.config({
+                baseUrl: "js",
+                paths: {
+                    "saucer": "../../saucer"
+                },
+            });
+            require(["app"])
+        </script>
         <style>
             .thing {
                 color : #ff0000;
